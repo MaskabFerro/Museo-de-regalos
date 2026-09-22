@@ -4,19 +4,305 @@
 <head>
     <meta charset="UTF-8">
     <title>Museo</title>
+
+    <title>Museo Digital</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #eee8dc;
+            color: #29251f;
+        }
+
+        header {
+            background: #302b24;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 40px;
+        }
+
+        .contenedor {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .botones {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        button {
+            padding: 12px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .objeto {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px #bbb;
+        }
+
+        .objeto img {
+            max-width: 250px;
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        #login {
+            display: none;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 3px 10px #bbb;
+        }
+
+        input {
+            padding: 12px;
+            width: 80%;
+            max-width: 300px;
+            margin: 10px;
+        }
+
+        #coleccion {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
 
-    <h1>🏛️ Mi Museo Digital</h1>
+<header>
+    <h1>🏛️ Museo Digital</h1>
+    <p>Una colección de objetos y recuerdos</p>
+</header>
 
-    <p>Si puedes ver esto, HTML está funcionando.</p>
+<div class="contenedor">
 
-    <button>🌐 Ver museo</button>
-    <button>🔐 Mi colección</button>
+    <div class="botones">
+        <button onclick="mostrarMuseo()">
+            🌐 Ver museo
+        </button>
+
+        <button onclick="mostrarLogin()">
+            🔐 Mi colección
+        </button>
+    </div>
+
+
+    <!-- MUSEO PÚBLICO -->
+
+    <div id="museo">
+
+        <h2>Objetos de la colección</h2>
+
+        <div class="objeto">
+
+            <img src="https://via.placeholder.com/250">
+
+            <h2>🏺 Objeto #001</h2>
+
+            <p>
+                Una pieza especial de la colección.
+            </p>
+
+            <p>
+                Coleccionista: 🌙 <b>Lunario</b>
+            </p>
+
+        </div>
+
+
+        <div class="objeto">
+
+            <img src="https://via.placeholder.com/250">
+
+            <h2>🎨 Objeto #002</h2>
+
+            <p>
+                Otro objeto perteneciente al museo.
+            </p>
+
+            <p>
+                Coleccionista: 🦊 <b>ZorroAzul</b>
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- LOGIN -->
+
+    <div id="login">
+
+        <h2>🔐 Mi colección</h2>
+
+        <p>Introduce el código de tu tarjeta:</p>
+
+        <input
+            id="codigo"
+            type="text"
+            placeholder="Ejemplo: MUSEO-7K4P-92"
+        >
+
+        <br>
+
+        <button onclick="entrar()">
+            Entrar
+        </button>
+
+        <p id="mensaje"></p>
+
+    </div>
+
+
+    <!-- COLECCIÓN PERSONAL -->
+
+    <div id="coleccion">
+
+        <h2 id="bienvenida"></h2>
+
+        <div id="objetosPersonales"></div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /*
+       PERSONAS DEL MUSEO
+
+       Aquí puedes agregar a tus amigos.
+    */
+
+    const personas = {
+
+        "MUSEO-7K4P-92": {
+            apodo: "Lunario",
+
+            objetos: [
+                {
+                    numero: "001",
+                    nombre: "El guardián",
+                    descripcion: "Una pieza especial."
+                },
+                {
+                    numero: "004",
+                    nombre: "La pequeña taza",
+                    descripcion: "Un recuerdo de la colección."
+                }
+            ]
+        },
+
+
+        "MUSEO-3X8A-51": {
+            apodo: "ZorroAzul",
+
+            objetos: [
+                {
+                    numero: "002",
+                    nombre: "El viajero",
+                    descripcion: "Una pieza de la colección."
+                }
+            ]
+        }
+
+    };
+
+
+    function mostrarMuseo() {
+
+        document.getElementById("museo").style.display = "block";
+        document.getElementById("login").style.display = "none";
+        document.getElementById("coleccion").style.display = "none";
+
+    }
+
+
+    function mostrarLogin() {
+
+        document.getElementById("museo").style.display = "none";
+        document.getElementById("login").style.display = "block";
+        document.getElementById("coleccion").style.display = "none";
+
+    }
+
+
+    function entrar() {
+
+        const codigo =
+            document.getElementById("codigo").value.trim();
+
+        const persona = personas[codigo];
+
+        if (!persona) {
+
+            document.getElementById("mensaje").textContent =
+                "❌ Código incorrecto.";
+
+            return;
+
+        }
+
+
+        document.getElementById("login").style.display = "none";
+        document.getElementById("coleccion").style.display = "block";
+
+
+        document.getElementById("bienvenida").textContent =
+            "🌙 Colección de " + persona.apodo;
+
+
+        const contenedor =
+            document.getElementById("objetosPersonales");
+
+        contenedor.innerHTML = "";
+
+
+        persona.objetos.forEach(objeto => {
+
+            contenedor.innerHTML += `
+
+                <div class="objeto">
+
+                    <h2>
+                        🏺 Objeto #${objeto.numero}
+                    </h2>
+
+                    <h3>
+                        ${objeto.nombre}
+                    </h3>
+
+                    <p>
+                        ${objeto.descripcion}
+                    </p>
+
+                </div>
+
+            `;
+
+        });
+
+    }
+
+</script>
 
 </body>
 </html>
 ```
-
-
